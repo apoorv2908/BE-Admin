@@ -1,0 +1,53 @@
+@import url("https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Raleway:ital,wght@0,100..900;1,100..900&display=swap");
+
+body {
+  font-family: "Raleway" !important;
+}
+
+.ql-editor {
+  font-family: "Outfit";
+}
+
+.ql-size {
+  font-family: "Outfit";
+}
+
+body {
+  background-color: lightgray !important;
+}
+
+li {
+  font-weight: bold;
+}
+
+.sidebar {
+  height: auto;
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.klesi {
+  overflow-x: hidden;
+}
+.input-group {
+  width: 20% !important;
+}
+
+.image-container {
+  display: flex;
+  align-items: center;
+}
+
+.image-container img {
+  margin-right: 10px;
+}
+
+.image-container .btn {
+  margin-left: 10px;
+}
+
+.comb {
+  font-size: small;
+}

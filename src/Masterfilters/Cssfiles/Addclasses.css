@@ -1,0 +1,19 @@
+.custom-input {
+    border: 0;
+    border: 1px solid #ccc;
+    outline: 0;
+    height: 40px;
+    border-radius: 4px;
+    width: 100%;
+    padding-left: 5px;
+  }
+  
+  .custom-input:focus {
+    border-bottom: 2px solid #007bff; /* Bootstrap primary blue color */
+    outline: 0;
+  }
+  
+  .custom-input:hover {
+    border-bottom: 3px solid #007bff;
+  }
+  

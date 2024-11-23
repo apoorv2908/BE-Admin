@@ -1,0 +1,23 @@
+.logout-container {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: end;
+    align-items: center;
+    position: fixed;
+    top: 10px;
+    left: 100px;
+    gap: 10px; /* Adjust gap as needed */
+  }
+  
+  .username-text {
+    color: black; /* Change color as needed */
+  }
+  
+  .logout-button {
+    background: none;
+    border: none;
+    color: blue; /* Change color as needed */
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  
