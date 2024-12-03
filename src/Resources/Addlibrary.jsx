@@ -146,32 +146,66 @@ const Addlibrary = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    // Initialize FormData
     const formData = new FormData();
+
+    // Append mandatory fields
     formData.append("selectedClass", selectedClass);
     formData.append("selectedSubject", selectedSubject);
     formData.append("selectedSeries", selectedSeries);
     formData.append("selectedBook", selectedBook);
+    formData.append("selectedChapter", selectedChapter);
     formData.append("resourceTitle", resourceTitle);
-    formData.append("selectedChapter", selectedChapter); // Include the selected chapter
     formData.append("resourceType", resourceType);
 
+    // Append optional links
+    if (videoLink) formData.append("videoLink", videoLink);
+    if (documentLink) formData.append("documentLink", documentLink);
+    if (lessonPlanLink) formData.append("lessonPlanLink", lessonPlanLink);
+    if (audioLink) formData.append("audioLink", audioLink);
+    if (interactivitiesLink)
+      formData.append("interactivitiesLink", interactivitiesLink);
+    if (addnworksheetsLink)
+      formData.append("addnworksheetsLink", addnworksheetsLink);
+    if (addnactivitiesLink)
+      formData.append("addnactivitiesLink", addnactivitiesLink);
+    if (answerkeysLink) formData.append("answerkeysLink", answerkeysLink);
+
+    // Append optional files
+    if (videoFile) formData.append("videoFile", videoFile);
+    if (documentFile) formData.append("documentFile", documentFile);
+    if (thumbImage) formData.append("thumbImage", thumbImage);
+    if (audioFile) formData.append("audioFile", audioFile);
+    if (interactivitiesFile)
+      formData.append("interactivitiesFile", interactivitiesFile);
+    if (addnworksheetsFile)
+      formData.append("addnworksheetsFile", addnworksheetsFile);
+    if (addnactivitiesFile)
+      formData.append("addnactivitiesFile", addnactivitiesFile);
+    if (answerkeysFile) formData.append("answerkeysFile", answerkeysFile);
+
     try {
+      // API call to submit the form data
       const response = await fetch(
-        `${config.apiBaseUrl}/fullmarks-server/Resources/Library/addquestion.php`,
+        `${config.apiBaseUrl}/fullmarks-server/Resources/Library/addlibrary.php`,
         {
           method: "POST",
           body: formData,
         }
       );
       const data = await response.json();
+
+      // Handle response
       if (data.success) {
-        alert("Question added successfully");
+        alert("Resource added successfully");
         navigate("/library");
       } else {
+        console.error("Server error:", data.error);
         alert("Failed to add library resource");
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Submission error:", error);
       alert("Error adding library resource");
     }
   };
@@ -188,7 +222,7 @@ const Addlibrary = () => {
               {/* Topbar */}
               <div className="row">
                 <div className="col-md-12 bg-white shadow-lg p-3 mb-5 bg-white rounded">
-                  <div className="text-grey h6">Add Resource</div>
+                  <div className="text-grey h6 fw-bold">Add Resource</div>
                   <hr></hr>
                   <form onSubmit={handleSubmit}>
                     <label className="fw-bold">

@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import Topbar from '../Dashboard/Topbar'; 
-import config from '../Access/config';
+import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
+import Topbar from "../Dashboard/Topbar";
+import config from "../Access/config";
 
 const Library = () => {
   const [libraryResources, setLibraryResources] = useState([]);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
   const [limit, setLimit] = useState(10);
-  const [sortOption, setSortOption] = useState('');
+  const [sortOption, setSortOption] = useState("");
 
   useEffect(() => {
     fetchLibraryResources();
@@ -17,39 +17,44 @@ const Library = () => {
 
   const fetchLibraryResources = async () => {
     try {
-      const response = await fetch(`${config.apiBaseUrl}/fullmarks-server/Resources/Library/fetchlibrary.php?search=${searchQuery}&page=${page}&limit=${limit}&sortOption=${sortOption}`);
+      const response = await fetch(
+        `${config.apiBaseUrl}/fullmarks-server/Resources/Library/fetchlibrary.php?search=${searchQuery}&page=${page}&limit=${limit}&sortOption=${sortOption}`
+      );
       const data = await response.json();
       if (data.success) {
         setLibraryResources(data.libraryResources);
         setTotal(data.total);
       } else {
-        alert('Failed to fetch library resources');
+        alert("Failed to fetch library resources");
       }
     } catch (error) {
-      console.error('Error:', error);
-      alert('Error fetching library resources');
+      console.error("Error:", error);
+      alert("Error fetching library resources");
     }
   };
 
   const handleDelete = async (resource_id) => {
     try {
-      const response = await fetch(`${config.apiBaseUrl}/fullmarks-server/Resources/Library/deletelibrary.php`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ resource_id }),
-      });
+      const response = await fetch(
+        `${config.apiBaseUrl}/fullmarks-server/Resources/Library/deletelibrary.php`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ resource_id }),
+        }
+      );
       const data = await response.json();
       if (data.success) {
-        alert('Library resource deleted successfully');
+        alert("Library resource deleted successfully");
         fetchLibraryResources();
       } else {
-        alert('Failed to delete library resource');
+        alert("Failed to delete library resource");
       }
     } catch (error) {
-      console.error('Error:', error);
-      alert('Error deleting library resource');
+      console.error("Error:", error);
+      alert("Error deleting library resource");
     }
   };
 
@@ -88,13 +93,15 @@ const Library = () => {
             <div className="container mt-3 bg-white shadow-lg p-3 mb-5 bg-white rounded">
               <div className="row">
                 <div className="col-md-12 d-flex justify-content-between">
-                  <div className='text-grey h5'>Manage Resources</div>
-                  <Link to={'/addlibrary'}><button className="btn btn-primary">+ Add Resource</button></Link>
+                  <div className="text-grey h5">Manage Resources</div>
+                  <Link to={"/addresources"}>
+                    <button className="btn btn-primary">+ Add Resource</button>
+                  </Link>
                 </div>
               </div>
               <hr />
               <div className="row">
-                <div className='d-flex justify-content-end gap-3'>
+                <div className="d-flex justify-content-end gap-3">
                   <div className="col-md-2">
                     <input
                       type="text"
@@ -109,7 +116,7 @@ const Library = () => {
               <div className="row mt-3">
                 <div className="col-md-12 table-responsive">
                   <table className="table table-sm  table-rounded table-bordered">
-                    <thead className='table-light'>
+                    <thead className="table-light">
                       <tr>
                         <th scope="col">S.no.</th>
                         <th scope="col">Resource Title</th>
@@ -121,14 +128,18 @@ const Library = () => {
                     </thead>
                     <tbody>
                       {libraryResources.map((item, index) => (
-                        <tr key={item.resource_id} className={index % 2 === 0 ? ' table-hover' : ''}>
+                        <tr
+                          key={item.resource_id}
+                          className={index % 2 === 0 ? " table-hover" : ""}
+                        >
                           <td>{getSNo(index)}</td>
                           <td>{item.resource_title}</td>
                           <td>{item.resource_type}</td>
-                          <td><b className= 'comb'>Book Name:</b> {item.book_name}<br></br>
-                          <b className= 'comb'>Chapter Name:</b> {item.chapter_name}
-
-
+                          <td>
+                            <b className="comb">Book Name:</b> {item.book_name}
+                            <br></br>
+                            <b className="comb">Chapter Name:</b>{" "}
+                            {item.chapter_name}
                           </td>
                           <td>Yes</td>
 
@@ -162,27 +173,61 @@ const Library = () => {
                       ))}
                     </tbody>
                   </table>
-                  {libraryResources.length === 0 && <p>No library resources found.</p>}
-                  <div className='d-flex justify-content-between'>
+                  {libraryResources.length === 0 && (
+                    <p>No library resources found.</p>
+                  )}
+                  <div className="d-flex justify-content-between">
                     <div>
-                      Showing <b>{firstEntry}</b> to <b>{lastEntry}</b> of <b>{total}</b> total entries
+                      Showing <b>{firstEntry}</b> to <b>{lastEntry}</b> of{" "}
+                      <b>{total}</b> total entries
                     </div>
                     <div className="row mt-3">
                       <div className="col-md-12">
                         <nav>
                           <ul className="pagination">
-                            <li className={`page-item ${page === 1 ? 'disabled' : ''}`}>
-                              <button className="page-link" onClick={() => handlePageChange(page - 1)}>Previous</button>
+                            <li
+                              className={`page-item ${
+                                page === 1 ? "disabled" : ""
+                              }`}
+                            >
+                              <button
+                                className="page-link"
+                                onClick={() => handlePageChange(page - 1)}
+                              >
+                                Previous
+                              </button>
                             </li>
-                            {Array.from({ length: Math.ceil(total / limit) }, (_, index) => (
-                              <li key={index + 1} className={`page-item ${page === index + 1 ? 'active' : ''}`}>
-                                <button className="page-link" onClick={() => handlePageChange(index + 1)}>
-                                  {index + 1}
-                                </button>
-                              </li>
-                            ))}
-                            <li className={`page-item ${page === Math.ceil(total / limit) ? 'disabled' : ''}`}>
-                              <button className="page-link" onClick={() => handlePageChange(page + 1)}>Next</button>
+                            {Array.from(
+                              { length: Math.ceil(total / limit) },
+                              (_, index) => (
+                                <li
+                                  key={index + 1}
+                                  className={`page-item ${
+                                    page === index + 1 ? "active" : ""
+                                  }`}
+                                >
+                                  <button
+                                    className="page-link"
+                                    onClick={() => handlePageChange(index + 1)}
+                                  >
+                                    {index + 1}
+                                  </button>
+                                </li>
+                              )
+                            )}
+                            <li
+                              className={`page-item ${
+                                page === Math.ceil(total / limit)
+                                  ? "disabled"
+                                  : ""
+                              }`}
+                            >
+                              <button
+                                className="page-link"
+                                onClick={() => handlePageChange(page + 1)}
+                              >
+                                Next
+                              </button>
                             </li>
                           </ul>
                         </nav>
