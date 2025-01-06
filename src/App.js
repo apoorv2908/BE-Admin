@@ -56,6 +56,8 @@ import AddAboutUs from "./CMS/Aboutus/AddAboutUs";
 import UpdateAboutUs from "./CMS/Aboutus/UpdateAboutUs";
 import Addquestion from "./Resources/Addquestion";
 import Questions from "./Resources/Questions";
+import Footer from "./Dashboard/Footer";
+import Contacts from "./Queries/Contacts";
 
 function App() {
   return (
@@ -521,7 +523,19 @@ function App() {
               </PrivateRoute>
             }
           />
+
+          <Route
+            path="/contacts"
+            element={
+              <PrivateRoute>
+                <Page title="Contacts - Binary Education">
+                  <Contacts />
+                </Page>
+              </PrivateRoute>
+            }
+          />
         </Routes>
+        <Footer />
       </Router>
     </AuthProvider>
   );

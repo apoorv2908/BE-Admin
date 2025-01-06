@@ -87,15 +87,22 @@ const Library = () => {
   return (
     <div>
       <div className="container-fluid">
-        <div className="row">
+        <div className="row ">
+          {/* Sidebar */}
           <Topbar />
+          {/* Main content */}
           <div className="col-md-12">
-            <div className="container mt-3 bg-white shadow-lg p-3 mb-5 bg-white rounded">
+            <div
+              className=" container mt-3 mb-3 p-3 bg-white"
+              style={{ boxShadow: "0px 0px 5px lightgrey" }}
+            >
+              {" "}
+              {/* Topbar */}
               <div className="row">
                 <div className="col-md-12 d-flex justify-content-between">
-                  <div className="text-grey h5">Manage Resources</div>
+                  <div className=" fw-bold h4">Resources</div>
                   <Link to={"/addresources"}>
-                    <button className="btn btn-primary">+ Add Resource</button>
+                    <button className="btn-custom">+ Add Resource</button>
                   </Link>
                 </div>
               </div>
@@ -105,7 +112,7 @@ const Library = () => {
                   <div className="col-md-2">
                     <input
                       type="text"
-                      className="form-control"
+                      className="custom-input"
                       placeholder="Search by title"
                       value={searchQuery}
                       onChange={handleSearchChange}
@@ -115,30 +122,27 @@ const Library = () => {
               </div>
               <div className="row mt-3">
                 <div className="col-md-12 table-responsive">
-                  <table className="table table-sm  table-rounded table-bordered">
-                    <thead className="table-light">
-                      <tr>
+                  <table className="table table-sm table-bordered ">
+                    <thead className="table-secondary">
+                      <tr className="text-center" style={{ fontSize: "15px" }}>
                         <th scope="col">S.no.</th>
                         <th scope="col">Resource Title</th>
                         <th scope="col">Resource Type</th>
-                        <th scope="col">Added For</th>
+                        <th scope="col">Book - Chapter</th>
                         <th scope="col">Resource Tagged</th>
                         <th>Actions</th>
                       </tr>
                     </thead>
                     <tbody>
                       {libraryResources.map((item, index) => (
-                        <tr
-                          key={item.resource_id}
-                          className={index % 2 === 0 ? " table-hover" : ""}
-                        >
+                        <tr key={item.resource_id} className="text-center ">
                           <td>{getSNo(index)}</td>
                           <td>{item.resource_title}</td>
                           <td>{item.resource_type}</td>
+
                           <td>
-                            <b className="comb">Book Name:</b> {item.book_name}
+                            {item.book_name}
                             <br></br>
-                            <b className="comb">Chapter Name:</b>{" "}
                             {item.chapter_name}
                           </td>
                           <td>Yes</td>
@@ -163,10 +167,10 @@ const Library = () => {
 
                           <td>
                             <button
-                              className="btn btn-sm btn-danger mt-2"
+                              className="btn btn-sm "
                               onClick={() => handleDelete(item.resource_id)}
                             >
-                              Delete Resource
+                              <i className="bi bi-trash text-danger fw-bold h5"></i>{" "}
                             </button>
                           </td>
                         </tr>
@@ -177,7 +181,7 @@ const Library = () => {
                     <p>No library resources found.</p>
                   )}
                   <div className="d-flex justify-content-between">
-                    <div>
+                    <div className="fw-bold">
                       Showing <b>{firstEntry}</b> to <b>{lastEntry}</b> of{" "}
                       <b>{total}</b> total entries
                     </div>

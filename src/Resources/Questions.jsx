@@ -82,18 +82,23 @@ const Questions = () => {
   return (
     <div>
       <div className="container-fluid">
-        <div className="row">
+        <div className="row ">
           {/* Sidebar */}
           <Topbar />
           {/* Main content */}
           <div className="col-md-12">
-            <div className="container mt-3 bg-white shadow-lg p-3 mb-5 bg-white rounded">
+            <div
+              className=" container mt-3 mb-3 p-3 bg-white"
+              style={{ boxShadow: "0px 0px 5px lightgrey" }}
+            >
+              {" "}
               {/* Topbar */}
               <div className="row">
                 <div className="col-md-12 d-flex justify-content-between">
-                  <div className="text-grey h5">Question Bank</div>
+                  <div className=" fw-bold h4">Question Bank</div>
+
                   <Link to={"/addquestion"}>
-                    <button className="btn btn-primary">+ Add Question</button>
+                    <button className="btn-custom">+ Add Question</button>
                   </Link>
                 </div>
               </div>
@@ -102,8 +107,8 @@ const Questions = () => {
                 <div className="col-md-2 ">
                   <input
                     type="text"
-                    className="form-control"
-                    placeholder="Search"
+                    className="custom-input"
+                    placeholder="Search Question"
                     value={searchQuery}
                     onChange={handleSearchChange}
                   />
@@ -112,11 +117,11 @@ const Questions = () => {
               {/* Table */}
               <div className="row mt-3">
                 <div className="col-md-12 table-responsive">
-                  <table className="table table-sm table-bordered table-rounded">
-                    <thead className="table-light">
-                      <tr>
+                  <table className="table table-sm table-bordered ">
+                    <thead className="table-secondary">
+                      <tr className="text-center" style={{ fontSize: "15px" }}>
                         <th scope="col">S.no.</th>
-                        <th scope="col">Question Title</th>
+                        <th scope="col">Question</th>
                         <th scope="col">Question Type</th>
 
                         <th scope="col">
@@ -127,10 +132,7 @@ const Questions = () => {
                     </thead>
                     <tbody>
                       {questions.map((item, index) => (
-                        <tr
-                          key={item.question_id}
-                          className={index % 2 === 0 ? " table-hover" : ""}
-                        >
+                        <tr key={item.question_id} className="text-center">
                           <td>{getSNo(index)}</td>
                           <td>
                             {item.question_title}
@@ -149,30 +151,32 @@ const Questions = () => {
                           <td className="comb">
                             {item.class_name} / {item.subject_name} /{" "}
                             {item.series_name} / {item.book_name} /{" "}
-                            {item.chapter_title}
+                            {item.chapter_name}
                           </td>
                           <td>
                             <Link
                               to={`/updatequestion/${encodeId(item.id)}`}
                             ></Link>
                             <button
-                              className="btn btn-sm btn-danger"
+                              className="btn btn-sm "
                               onClick={() => handleDelete(item.id)}
                             >
-                              Delete
+                              <i className="bi bi-trash text-danger fw-bold h5"></i>{" "}
                             </button>
                           </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
-                  {questions.length === 0 && <p>No questions found.</p>}
+                  {questions.length === 0 && (
+                    <p className="fw-bold">No questions found.</p>
+                  )}
                 </div>
               </div>
               {/* Pagination */}
               <div className="row">
                 <div className="col-md-12 d-flex justify-content-between">
-                  <div>
+                  <div className="fw-bold">
                     Showing <b>{firstEntry}</b> to <b>{lastEntry}</b> of{" "}
                     <b>{total}</b> total entries
                   </div>

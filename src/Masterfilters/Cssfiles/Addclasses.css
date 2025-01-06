@@ -1,19 +1,34 @@
 .custom-input {
-    border: 0;
-    border: 1px solid #ccc;
-    outline: 0;
-    height: 40px;
-    border-radius: 4px;
-    width: 100%;
-    padding-left: 5px;
-  }
-  
-  .custom-input:focus {
-    border-bottom: 2px solid #007bff; /* Bootstrap primary blue color */
-    outline: 0;
-  }
-  
-  .custom-input:hover {
-    border-bottom: 3px solid #007bff;
-  }
-  
+  border: 0;
+  border: 1px solid #ccc;
+  outline: 0;
+  height: 40px;
+  border-radius: 4px;
+  width: 100%;
+  padding-left: 5px;
+  border-radius: 0px;
+}
+
+.custom-input:focus {
+  border: 2px solid #192152; /* Bootstrap primary blue color */
+  outline: 0;
+}
+
+.custom-input:hover {
+  border: 2px solid #192152;
+}
+
+.btn-custom {
+  background-color: #192152;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 10px;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.btn-custom:hover {
+  background-color: silver;
+  color: black;
+}

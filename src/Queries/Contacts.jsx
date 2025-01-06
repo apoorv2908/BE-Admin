@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import Topbar from "../../Dashboard/Topbar";
-import config from "../../Access/config";
-import { encodeId } from "../../Access/Encodedecode";
-import Sidebar from "../../Dashboard/Sidebar";
+import Topbar from "../Dashboard/Topbar";
+import config from "../Access/config";
+import Sidebar from "../Dashboard/Sidebar";
 
-const Classes = () => {
-  const [classes, setClasses] = useState([]);
+const Contacts = () => {
+  const [contacts, setContacts] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
@@ -14,73 +13,36 @@ const Classes = () => {
   const [sortOption, setSortOption] = useState("");
 
   useEffect(() => {
-    fetchClasses();
+    fetchContacts();
   }, [searchQuery, page, limit, sortOption]);
 
-  const fetchClasses = async () => {
+  const fetchContacts = async () => {
     try {
       const response = await fetch(
-        `${config.apiBaseUrl}/fullmarks-server/Masterfilter/Classes/fetchclasses.php?search=${searchQuery}&page=${page}&limit=${limit}&sortOption=${sortOption}`
+        `${config.apiBaseUrl}/fullmarks-server/Queries/contacts.php?search=${searchQuery}&page=${page}&limit=${limit}&sortOption=${sortOption}`
       );
 
       const data = await response.json();
       if (data.success) {
-        setClasses(data.classes);
+        setContacts(data.data);
         setTotal(data.total);
       } else {
-        alert("Failed to fetch classes");
+        alert("Failed to fetch contacts");
       }
     } catch (error) {
       console.error("Error:", error);
-      alert("Error fetching classes");
-    }
-  };
-
-  const handleDelete = async (class_id) => {
-    // Ask for confirmation before proceeding
-    const isConfirmed = window.confirm(
-      "Are you sure you want to delete class?"
-    );
-
-    if (!isConfirmed) {
-      // If user clicks 'Cancel', do nothing and return
-      return;
-    }
-
-    // Proceed with deletion if confirmed
-    try {
-      const response = await fetch(
-        `${config.apiBaseUrl}/fullmarks-server/Masterfilter/Classes/deleteclasses.php`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ class_id }),
-        }
-      );
-      const data = await response.json();
-
-      if (data.success) {
-        alert("Class deleted successfully");
-        fetchClasses(); // Refresh the classes list
-      } else {
-        alert("Failed to delete class");
-      }
-    } catch (error) {
-      console.error("Error:", error);
-      alert("Error deleting class");
+      alert("Error fetching contacts");
     }
   };
 
   const handleSearchChange = (e) => {
     setSearchQuery(e.target.value);
-    setPage(1); // Reset to the first page on new search
+    setPage(1);
   };
 
   const handleLimitChange = (e) => {
     setLimit(parseInt(e.target.value));
-    setPage(1); // Reset to the first page on limit change
+    setPage(1);
   };
 
   const handlePageChange = (newPage) => {
@@ -89,7 +51,7 @@ const Classes = () => {
 
   const handleSortChange = (e) => {
     setSortOption(e.target.value);
-    setPage(1); // Reset to the first page on sort change
+    setPage(1);
   };
 
   const getSNo = (index) => {
@@ -102,77 +64,59 @@ const Classes = () => {
   return (
     <div>
       <div className="container-fluid">
-        <div className="row ">
-          {/* Sidebar */}
+        <div className="row">
           <Topbar />
-          {/* Main content */}
           <div className="col-md-12">
             <div
-              className=" container mt-3 mb-3 p-3 bg-white"
+              className="container mt-3 mb-3 p-3 bg-white"
               style={{ boxShadow: "0px 0px 7px grey" }}
             >
-              {" "}
-              {/* Topbar */}
               <div className="row">
                 <div className="col-md-12 d-flex justify-content-between">
-                  <div className=" fw-bold h4">Classes</div>
-                  <Link to={"/addclasses"}>
-                    <button className=" btn-custom"> + Add Class</button>
-                  </Link>
-                </div>
-              </div>
-              <hr></hr>
-              {/* Topbar */}
-              <div className="row ">
-                <div className="d-flex justify-content-end gap-3">
-                  <div className="col-md-32">
+                  <div className="fw-bold h4">Contacts</div>
+                  <div className="col-md-2">
                     <input
                       type="text"
                       className="cursor custom-input"
-                      placeholder="Search Class..."
+                      placeholder="Search Contacts..."
                       value={searchQuery}
                       onChange={handleSearchChange}
                     />
                   </div>
                 </div>
               </div>
-              {/* Table */}
+              <hr />
+
               <div className="row mt-3">
                 <div className="col-md-12 table-responsive">
-                  <table className="table table-sm table-bordered ">
+                  <table className="table table-sm table-bordered">
                     <thead className="table-secondary">
                       <tr className="text-center" style={{ fontSize: "15px" }}>
-                        <th scope="col ">S.no.</th>
-                        <th scope="col">Class Name </th>
-                        <th scope="col">Actions</th>
+                        <th scope="col">S.no.</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Email - Phone</th>
+                        <th scope="col">Message</th>
+                        <th scope="col">Submitted On</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {classes.map((cls, index) => (
-                        <tr key={cls.class_id} className="text-center">
-                          <td>{index + 1}</td>
-                          <td>{cls.class_name}</td>
+                      {contacts.map((contact, index) => (
+                        <tr key={contact.id} className="text-center">
+                          <td>{getSNo(index)}</td>
                           <td>
-                            <Link to={`/updateclass/${encodeId(cls.class_id)}`}>
-                              <button className="btn btn-sm ">
-                                <i className="bi bi-pencil text-primary fw-bold h5"></i>
-                                {/* Edit Icon */}
-                              </button>
-                            </Link>
-                            <button
-                              className="btn btn-sm "
-                              onClick={() => handleDelete(cls.class_id)}
-                            >
-                              <i className="bi bi-trash text-danger fw-bold h5"></i>{" "}
-                              {/* Delete Icon */}
-                            </button>
+                            {contact.first_name} {contact.last_name}
                           </td>
+                          <td>
+                            {contact.email} - {contact.phone}
+                          </td>
+                          <td>{contact.message}</td>
+                          <td>{contact.submitted_on}</td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
-                  {classes.length === 0 && (
-                    <p className="fw-bold">No classes found.</p>
+                  {contacts.length === 0 && (
+                    <p className="fw-bold">No contacts found.</p>
                   )}
                   <div className="d-flex justify-content-between">
                     <div className="fw-bold">
@@ -241,4 +185,4 @@ const Classes = () => {
   );
 };
 
-export default Classes;
+export default Contacts;

@@ -107,18 +107,22 @@ const Chapters = () => {
   return (
     <div>
       <div className="container-fluid">
-        <div className="row">
+        <div className="row ">
           {/* Sidebar */}
           <Topbar />
           {/* Main content */}
           <div className="col-md-12">
-            <div className="container mt-3 bg-white shadow-lg p-3 mb-5 bg-white rounded">
+            <div
+              className=" container mt-3 mb-3 p-3 bg-white"
+              style={{ boxShadow: "0px 0px 7px grey" }}
+            >
+              {" "}
               {/* Topbar */}
               <div className="row">
                 <div className="col-md-12 d-flex justify-content-between">
-                  <div className="text-grey h5">Manage Chapters</div>
+                  <div className=" fw-bold h4">Chapters</div>
                   <Link to={"/addchapters"}>
-                    <button className="btn btn-primary">+ Add Chapter</button>
+                    <button className="btn-custom">+ Add Chapter</button>
                   </Link>
                 </div>
               </div>
@@ -127,8 +131,8 @@ const Chapters = () => {
                 <div className="col-md-2 ">
                   <input
                     type="text"
-                    className="form-control"
-                    placeholder="Search"
+                    className="custom-input"
+                    placeholder="Search Chapter......"
                     value={searchQuery}
                     onChange={handleSearchChange}
                   />
@@ -137,63 +141,62 @@ const Chapters = () => {
               {/* Table */}
               <div className="row mt-3">
                 <div className="col-md-12 table-responsive">
-                  <table className="table table-sm  table-bordered table-rounded">
-                    <thead className="table-light">
-                      <tr>
+                  <table className="table table-sm table-bordered ">
+                    <thead className="table-secondary">
+                      <tr className="text-center" style={{ fontSize: "15px" }}>
                         <th scope="col">S.no.</th>
                         <th scope="col">Chapter Name</th>
                         <th scope="col">Book Name</th>
                         <th scope="col">
-                          Class Name/ Subject Name/ Series Name
+                          Class Name - Subject Name - Series Name
                         </th>
                         <th scope="col">Actions</th>
                       </tr>
                     </thead>
                     <tbody>
                       {chapters.map((item, index) => (
-                        <tr
-                          key={item.chapter_id}
-                          className={index % 2 === 0 ? " table-hover" : ""}
-                        >
+                        <tr key={item.chapter_id} className="text-center">
                           <td>{getSNo(index)}</td>
                           <td>{item.chapter_title}</td>
                           <td>{item.book_name}</td>
-                          <td className="comb">
-                            {item.class_name} / {item.subject_name} /{" "}
+                          <td>
+                            {item.class_name} - {item.subject_name} -{" "}
                             {item.series_name}
                           </td>
                           <td>
                             <Link
                               to={`/updatechapter/${encodeId(item.chapter_id)}`}
                             >
-                              <button className="btn btn-sm btn-info mr-2 mx-3">
-                                Edit
+                              <button className="btn btn-sm ">
+                                <i className="bi bi-pencil text-primary fw-bold h5"></i>
                               </button>
                             </Link>
                             <button
-                              className="btn btn-sm btn-danger"
+                              className="btn btn-sm"
                               onClick={() => handleDelete(item.chapter_id)}
                             >
-                              Delete
+                              <i className="bi bi-trash text-danger fw-bold h5"></i>{" "}
                             </button>
                             <button
-                              className="btn btn-sm btn-success ml-2"
+                              className="btn btn-sm "
                               onClick={() => handleAddQuestion(item)}
                             >
-                              Add Question
+                              <i class="bi bi-book text-secondary fw-bold h5"></i>
                             </button>
                           </td>
                         </tr>
                       ))}
                     </tbody>
                   </table>
-                  {chapters.length === 0 && <p>No chapters found.</p>}
+                  {chapters.length === 0 && (
+                    <p className="fw-bold">No chapters found.</p>
+                  )}
                 </div>
               </div>
               {/* Pagination */}
               <div className="row">
                 <div className="col-md-12 d-flex justify-content-between ">
-                  <div>
+                  <div className="fw-bold">
                     Showing <b>{firstEntry}</b> to <b>{lastEntry}</b> of{" "}
                     <b>{total}</b> total entries
                   </div>

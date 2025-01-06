@@ -17,19 +17,19 @@ const Topbar = () => {
   };
 
   return (
-    <Navbar expand="lg" className="text-dark px-2 bg-white">
+    <Navbar expand="lg" className="text-dark px-2 bg-white border">
       <Navbar.Brand>
         <img className="mno" src={logo} alt="Logo" />
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
-        <Nav className="mr-auto">
-          <Nav.Link className="mx-5 fw-bold" as={Link} to="/homepage">
-            DASHBOARD
+        <Nav className="ms-center">
+          <Nav.Link className=" fw-bold shift  mx-3 " as={Link} to="/homepage">
+            Dashboard
           </Nav.Link>
           <NavDropdown
-            title="MASTERFILTERS"
-            className="mx-3 fw-bold"
+            title="Masterfilters"
+            className=" fw-bold  shift mx-3 "
             id="basic-nav-dropdown"
           >
             <NavDropdown.Item
@@ -83,8 +83,8 @@ const Topbar = () => {
             </NavDropdown.Item>
           </NavDropdown>
           <NavDropdown
-            title="RESOURCES"
-            className="mx-3 fw-bold"
+            title="Resource"
+            className="fw-bold  shift mx-3"
             id="basic-nav-dropdown"
           >
             <NavDropdown.Item
@@ -110,8 +110,8 @@ const Topbar = () => {
             </NavDropdown.Item>
           </NavDropdown>
           <NavDropdown
-            title="USERS"
-            className="mx-3 fw-bold"
+            title="Users"
+            className="fw-bold  shift mx-3"
             id="basic-nav-dropdown"
           >
             <NavDropdown.Item
@@ -137,8 +137,8 @@ const Topbar = () => {
             </NavDropdown.Item>
           </NavDropdown>
           <NavDropdown
-            title="CMS"
-            className="mx-3 fw-bold"
+            title="Content"
+            className="fw-bold  shift mx-3"
             id="basic-nav-dropdown"
           >
             <NavDropdown.Item
@@ -149,16 +149,33 @@ const Topbar = () => {
               About us
             </NavDropdown.Item>
           </NavDropdown>
+
+          <NavDropdown
+            title="Queries"
+            className="fw-bold  shift mx-3"
+            id="basic-nav-dropdown"
+          >
+            <NavDropdown.Item
+              as={Link}
+              to="/contacts"
+              style={{ color: "black", textDecoration: "none" }}
+            >
+              Contacts
+            </NavDropdown.Item>
+            <NavDropdown.Item
+              as={Link}
+              to="/subscribers"
+              style={{ color: "black", textDecoration: "none" }}
+            >
+              Subscribers
+            </NavDropdown.Item>
+          </NavDropdown>
         </Nav>
       </Navbar.Collapse>
       {isAuthenticated && (
         <Nav>
-          <button
-            className="btn btn-danger text-white"
-            onClick={handleLogout}
-            style={{ color: "black", textDecoration: "none" }}
-          >
-            Logout
+          <button className="btn " onClick={handleLogout}>
+            <i class="bi bi-box-arrow-right h4 text-danger"></i>{" "}
           </button>
         </Nav>
       )}

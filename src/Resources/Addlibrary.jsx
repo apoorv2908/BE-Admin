@@ -212,433 +212,400 @@ const Addlibrary = () => {
 
   return (
     <div>
-      <div className="container-fluid">
+      <Topbar />
+      <div
+        className="container bg-white mt-3 mb-3 p-3"
+        style={{ boxShadow: "0px 0px 5px lightgrey" }}
+      >
         <div className="row">
-          {/* Sidebar */}
-          <Topbar />
-          {/* Main content */}
           <div className="col-md-12">
-            <div className="container mt-3">
-              {/* Topbar */}
-              <div className="row">
-                <div className="col-md-12 bg-white shadow-lg p-3 mb-5 bg-white rounded">
-                  <div className="text-grey h6 fw-bold">Add Resource</div>
-                  <hr></hr>
-                  <form onSubmit={handleSubmit}>
-                    <label className="fw-bold">
-                      Class<span className="text-danger">*</span>
-                    </label>
-                    <br />
-                    <select
-                      className="custom-input cursor"
-                      value={selectedClass}
-                      required
-                      onChange={(e) => {
-                        setSelectedClass(e.target.value);
-                        fetchSubjects(e.target.value);
-                      }}
-                    >
-                      <option value="">Select Class</option>
-                      {classes.map((cls) => (
-                        <option key={cls.class_id} value={cls.class_id}>
-                          {cls.class_name}
-                        </option>
-                      ))}
-                    </select>
-                    <br />
-                    <br></br>
-                    <label className="fw-bold">
-                      Subject<span className="text-danger">*</span>
-                    </label>
-                    <br />
-                    <select
-                      className="custom-input cursor"
-                      value={selectedSubject}
-                      required
-                      onChange={(e) => {
-                        setSelectedSubject(e.target.value);
-                        fetchSeries(selectedClass, e.target.value);
-                      }}
-                    >
-                      <option value="">Select Subject</option>
-                      {subjects.map((sub) => (
-                        <option key={sub.subject_id} value={sub.subject_id}>
-                          {sub.subject_name}
-                        </option>
-                      ))}
-                    </select>
-                    <br />
-                    <br></br>
-                    <label className="fw-bold">
-                      Series<span className="text-danger">*</span>
-                    </label>
-                    <br />
-                    <select
-                      className="custom-input  cursor"
-                      value={selectedSeries}
-                      required
-                      onChange={(e) => {
-                        setSelectedSeries(e.target.value);
-                        fetchBooks(
-                          selectedClass,
-                          selectedSubject,
-                          e.target.value
-                        );
-                      }}
-                    >
-                      <option value="">Select Series</option>
-                      {series.map((ser) => (
-                        <option key={ser.series_id} value={ser.series_id}>
-                          {ser.series_name}
-                        </option>
-                      ))}
-                    </select>
-                    <br />
-                    <br></br>
-                    <label className="fw-bold">
-                      Book<span className="text-danger">*</span>
-                    </label>
-                    <br />
-                    <select
-                      className="custom-input cursor"
-                      value={selectedBook}
-                      required
-                      onChange={(e) => {
-                        setSelectedBook(e.target.value);
-                        fetchChapters(
-                          selectedClass,
-                          selectedSubject,
-                          selectedSeries,
-                          e.target.value
-                        );
-                      }}
-                    >
-                      <option value="">Select Book</option>
-                      {books.map((book) => (
-                        <option key={book.book_id} value={book.book_id}>
-                          {book.book_name}
-                        </option>
-                      ))}
-                    </select>
-                    <br />
-                    <br></br>
-                    <label className="fw-bold">
-                      Chapter<span className="text-danger">*</span>
-                    </label>
-                    <br />
-                    <select
-                      className="custom-input cursor"
-                      value={selectedChapter}
-                      required
-                      onChange={(e) => setSelectedChapter(e.target.value)}
-                    >
-                      <option value="">Select Chapter</option>
-                      {chapters.map((chap) => (
-                        <option key={chap.chapter_id} value={chap.chapter_id}>
-                          {chap.chapter_title}
-                        </option>
-                      ))}
-                    </select>
-                    <br />
-                    <br></br>
-                    <label className="fw-bold">
-                      Resource Title<span className="text-danger">*</span>
-                    </label>
-                    <br />
-                    <input
-                      className="custom-input"
-                      type="text"
-                      value={resourceTitle}
-                      placeholder="Enter Resource Title"
-                      required
-                      onChange={(e) => setResourceTitle(e.target.value)}
-                    />
-                    <br />
-                    <br></br>
-                    <label className="fw-bold">
-                      Resource Type<span className="text-danger">*</span>
-                    </label>
-                    <br />
-                    <select
-                      className="custom-input cursor"
-                      value={resourceType}
-                      required
-                      onChange={(e) => setResourceType(e.target.value)}
-                    >
-                      <option value="">--Select Resource Type--</option>
-                      <option value="videos">Videos</option>
-                      <option value="documents">Documents</option>
-                      <option value="audio">Audio</option>
-                      <option value="interactivities">Interactivities</option>
-                      <option value="addnworksheets">
-                        Additional Worksheets
-                      </option>
-                      <option value="addnactivities">
-                        Additional Activities
-                      </option>
-                      <option value="answerkeys">Answer Keys</option>
-                    </select>
-                    <br />
-                    <br></br>
-                    <div class="bg-light">
-                      {resourceType === "videos" && (
-                        <>
-                          <div className="mx-5">
-                            <label className=" mt-2 fw-bold">Video File</label>
-                            <br />
-                            <input
-                              className="  form-control"
-                              type="file"
-                              accept=".mp4"
-                              onChange={(e) => setVideoFile(e.target.files[0])}
-                            />
-                            <br />
-                            <br></br>
-                            <div className="d-flex justify-content-center fw-bold">
-                              OR
-                            </div>
-                            <label className="fw-bold">Enter Video Link</label>
-                            <br />
-                            <input
-                              className="custom-input "
-                              type="text"
-                              value={videoLink}
-                              onChange={(e) => setVideoLink(e.target.value)}
-                              placeholder="Enter Video URL/Link "
-                            />
-                            <br />
-                            <br></br>
-                          </div>
-                        </>
-                      )}
-                      {(resourceType === "documents" ||
-                        resourceType === "lessonplans") && (
-                        <>
-                          <div className="mx-5">
-                            <label className="fw-bold mt-2">
-                              Document File
-                            </label>
-                            <br />
-                            <input
-                              className="form-control"
-                              type="file"
-                              onChange={(e) =>
-                                setDocumentFile(e.target.files[0])
-                              }
-                            />
-                            <br />
-                            <br></br>
-                            <div className="d-flex justify-content-center fw-bold">
-                              OR
-                            </div>
-
-                            <label className="fw-bold">
-                              Enter Document Link
-                            </label>
-                            <br />
-                            <input
-                              className="custom-input"
-                              type="text"
-                              value={documentLink}
-                              placeholder="Enter Document URL/Link"
-                              onChange={(e) => setDocumentLink(e.target.value)}
-                            />
-                            <br />
-                            <br></br>
-                          </div>
-                        </>
-                      )}
-
-                      {resourceType === "audio" && (
-                        <>
-                          <div className="mx-5">
-                            <label className=" mt-2 fw-bold">Audio File</label>
-                            <br />
-                            <input
-                              className="  form-control"
-                              type="file"
-                              accept=".mp3"
-                              onChange={(e) => setAudioFile(e.target.files[0])}
-                            />
-                            <br />
-                            <br></br>
-                            <div className="d-flex justify-content-center fw-bold">
-                              OR
-                            </div>
-                            <label className="fw-bold">Enter Audio Link</label>
-                            <br />
-                            <input
-                              className="custom-input "
-                              type="text"
-                              value={audioLink}
-                              onChange={(e) => setAudioLink(e.target.value)}
-                              placeholder="Enter Audio URL/Link "
-                            />
-                            <br />
-                            <br></br>
-                          </div>
-                        </>
-                      )}
-
-                      {resourceType === "interactivities" && (
-                        <>
-                          <div className="mx-5">
-                            <label className="fw-bold mt-2">
-                              {" "}
-                              Interactivities File
-                            </label>
-                            <br />
-                            <input
-                              className=" form-control"
-                              type="file"
-                              accept=".mp3"
-                              onChange={(e) =>
-                                setInteractivitesFile(e.target.files[0])
-                              }
-                            />
-
-                            <br />
-                            <br></br>
-                            <div className="d-flex justify-content-center fw-bold">
-                              OR
-                            </div>
-
-                            <label className="fw-bold">Enter URL</label>
-                            <br />
-                            <input
-                              className="custom-input"
-                              type="text"
-                              placeholder="Enter Interactivites URL/Link "
-                              value={interactivitiesLink}
-                              onChange={(e) =>
-                                setInteractivitesLink(e.target.value)
-                              }
-                            />
-                            <br />
-                            <br></br>
-                          </div>
-                        </>
-                      )}
-
-                      {resourceType === "addnworksheets" && (
-                        <>
-                          <div className="mx-5">
-                            <label className=" mt-2 fw-bold">
-                              Additional Worksheets File
-                            </label>
-                            <br />
-                            <input
-                              className="  form-control"
-                              type="file"
-                              onChange={(e) =>
-                                setAddnworksheetsFile(e.target.files[0])
-                              }
-                            />
-                            <br />
-                            <br></br>
-                            <div className="d-flex justify-content-center fw-bold">
-                              OR
-                            </div>
-                            <label className="fw-bold">Add Link/URL</label>
-                            <br />
-                            <input
-                              className="custom-input "
-                              type="text"
-                              value={addnworksheetsLink}
-                              onChange={(e) =>
-                                setAddnworksheetsLink(e.target.value)
-                              }
-                              placeholder="Enter Additional Worksheets  URL/Link "
-                            />
-                            <br />
-                            <br></br>
-                          </div>
-                        </>
-                      )}
-
-                      {resourceType === "addnactivities" && (
-                        <>
-                          <div className="mx-5">
-                            <label className=" mt-2 fw-bold">
-                              Add Additional Activities
-                            </label>
-                            <br />
-                            <input
-                              className="  form-control"
-                              type="file"
-                              onChange={(e) =>
-                                setAddnactivitiesFile(e.target.files[0])
-                              }
-                            />
-                            <br />
-                            <br></br>
-                            <div className="d-flex justify-content-center fw-bold">
-                              OR
-                            </div>
-                            <label className="fw-bold">Add Link/URL</label>
-                            <br />
-                            <input
-                              className="custom-input "
-                              type="text"
-                              value={addnactivitiesLink}
-                              onChange={(e) =>
-                                setAddnactivitiesLink(e.target.value)
-                              }
-                              placeholder="Enter Video URL/Link "
-                            />
-                            <br />
-                            <br></br>
-                          </div>
-                        </>
-                      )}
-
-                      {resourceType === "answerkeys" && (
-                        <>
-                          <div className="mx-5">
-                            <label className=" mt-2 fw-bold">
-                              Answer Keys File
-                            </label>
-                            <br />
-                            <input
-                              className="  form-control"
-                              type="file"
-                              onChange={(e) =>
-                                setAnswerkeysFile(e.target.files[0])
-                              }
-                            />
-                            <br />
-                            <br></br>
-                            <div className="d-flex justify-content-center fw-bold">
-                              OR
-                            </div>
-                            <label className="fw-bold">Add Link/URL</label>
-                            <br />
-                            <input
-                              className="custom-input "
-                              type="text"
-                              value={answerkeysLink}
-                              onChange={(e) =>
-                                setAnswerkeysLink(e.target.value)
-                              }
-                              placeholder="Enter Answer Keys URL/Link "
-                            />
-                            <br />
-                            <br></br>
-                          </div>
-                        </>
-                      )}
+            <div className="text-grey fw-bold h4">Add Library</div>
+            <hr />
+            <form onSubmit={handleSubmit}>
+              <label className="fw-bold">
+                Class<span className="text-danger">*</span>
+              </label>
+              <br />
+              <select
+                className="custom-input cursor"
+                value={selectedClass}
+                required
+                onChange={(e) => {
+                  setSelectedClass(e.target.value);
+                  fetchSubjects(e.target.value);
+                }}
+              >
+                <option value="">Select Class</option>
+                {classes.map((cls) => (
+                  <option key={cls.class_id} value={cls.class_id}>
+                    {cls.class_name}
+                  </option>
+                ))}
+              </select>
+              <br />
+              <br></br>
+              <label className="fw-bold">
+                Subject<span className="text-danger">*</span>
+              </label>
+              <br />
+              <select
+                className="custom-input cursor"
+                value={selectedSubject}
+                required
+                onChange={(e) => {
+                  setSelectedSubject(e.target.value);
+                  fetchSeries(selectedClass, e.target.value);
+                }}
+              >
+                <option value="">Select Subject</option>
+                {subjects.map((sub) => (
+                  <option key={sub.subject_id} value={sub.subject_id}>
+                    {sub.subject_name}
+                  </option>
+                ))}
+              </select>
+              <br />
+              <br></br>
+              <label className="fw-bold">
+                Series<span className="text-danger">*</span>
+              </label>
+              <br />
+              <select
+                className="custom-input  cursor"
+                value={selectedSeries}
+                required
+                onChange={(e) => {
+                  setSelectedSeries(e.target.value);
+                  fetchBooks(selectedClass, selectedSubject, e.target.value);
+                }}
+              >
+                <option value="">Select Series</option>
+                {series.map((ser) => (
+                  <option key={ser.series_id} value={ser.series_id}>
+                    {ser.series_name}
+                  </option>
+                ))}
+              </select>
+              <br />
+              <br></br>
+              <label className="fw-bold">
+                Book<span className="text-danger">*</span>
+              </label>
+              <br />
+              <select
+                className="custom-input cursor"
+                value={selectedBook}
+                required
+                onChange={(e) => {
+                  setSelectedBook(e.target.value);
+                  fetchChapters(
+                    selectedClass,
+                    selectedSubject,
+                    selectedSeries,
+                    e.target.value
+                  );
+                }}
+              >
+                <option value="">Select Book</option>
+                {books.map((book) => (
+                  <option key={book.book_id} value={book.book_id}>
+                    {book.book_name}
+                  </option>
+                ))}
+              </select>
+              <br />
+              <br></br>
+              <label className="fw-bold">
+                Chapter<span className="text-danger">*</span>
+              </label>
+              <br />
+              <select
+                className="custom-input cursor"
+                value={selectedChapter}
+                required
+                onChange={(e) => setSelectedChapter(e.target.value)}
+              >
+                <option value="">Select Chapter</option>
+                {chapters.map((chap) => (
+                  <option key={chap.chapter_id} value={chap.chapter_id}>
+                    {chap.chapter_title}
+                  </option>
+                ))}
+              </select>
+              <br />
+              <br></br>
+              <label className="fw-bold">
+                Resource Title<span className="text-danger">*</span>
+              </label>
+              <br />
+              <input
+                className="custom-input"
+                type="text"
+                value={resourceTitle}
+                placeholder="Enter Resource Title"
+                required
+                onChange={(e) => setResourceTitle(e.target.value)}
+              />
+              <br />
+              <br></br>
+              <label className="fw-bold">
+                Resource Type<span className="text-danger">*</span>
+              </label>
+              <br />
+              <select
+                className="custom-input cursor"
+                value={resourceType}
+                required
+                onChange={(e) => setResourceType(e.target.value)}
+              >
+                <option value="">--Select Resource Type--</option>
+                <option value="videos">Videos</option>
+                <option value="documents">Documents</option>
+                <option value="audio">Audio</option>
+                <option value="interactivities">Interactivities</option>
+                <option value="addnworksheets">Additional Worksheets</option>
+                <option value="addnactivities">Additional Activities</option>
+                <option value="answerkeys">Answer Keys</option>
+              </select>
+              <br />
+              <br></br>
+              <div class="bg-light">
+                {resourceType === "videos" && (
+                  <>
+                    <div className="mx-5">
+                      <label className=" mt-2 fw-bold">Video File</label>
+                      <br />
+                      <input
+                        className="  form-control"
+                        type="file"
+                        accept=".mp4"
+                        onChange={(e) => setVideoFile(e.target.files[0])}
+                      />
+                      <br />
+                      <br></br>
+                      <div className="d-flex justify-content-center fw-bold">
+                        OR
+                      </div>
+                      <label className="fw-bold">Enter Video Link</label>
+                      <br />
+                      <input
+                        className="custom-input "
+                        type="text"
+                        value={videoLink}
+                        onChange={(e) => setVideoLink(e.target.value)}
+                        placeholder="Enter Video URL/Link "
+                      />
+                      <br />
+                      <br></br>
                     </div>
-                    <div className="d-flex justify-content-end mt-3 ">
-                      <button className="btn btn-primary" type="submit">
-                        Submit
-                      </button>
+                  </>
+                )}
+                {(resourceType === "documents" ||
+                  resourceType === "lessonplans") && (
+                  <>
+                    <div className="mx-5">
+                      <label className="fw-bold mt-2">Document File</label>
+                      <br />
+                      <input
+                        className="form-control"
+                        type="file"
+                        onChange={(e) => setDocumentFile(e.target.files[0])}
+                      />
+                      <br />
+                      <br></br>
+                      <div className="d-flex justify-content-center fw-bold">
+                        OR
+                      </div>
+
+                      <label className="fw-bold">Enter Document Link</label>
+                      <br />
+                      <input
+                        className="custom-input"
+                        type="text"
+                        value={documentLink}
+                        placeholder="Enter Document URL/Link"
+                        onChange={(e) => setDocumentLink(e.target.value)}
+                      />
+                      <br />
+                      <br></br>
                     </div>
-                  </form>
-                </div>
+                  </>
+                )}
+
+                {resourceType === "audio" && (
+                  <>
+                    <div className="mx-5">
+                      <label className=" mt-2 fw-bold">Audio File</label>
+                      <br />
+                      <input
+                        className="  form-control"
+                        type="file"
+                        accept=".mp3"
+                        onChange={(e) => setAudioFile(e.target.files[0])}
+                      />
+                      <br />
+                      <br></br>
+                      <div className="d-flex justify-content-center fw-bold">
+                        OR
+                      </div>
+                      <label className="fw-bold">Enter Audio Link</label>
+                      <br />
+                      <input
+                        className="custom-input "
+                        type="text"
+                        value={audioLink}
+                        onChange={(e) => setAudioLink(e.target.value)}
+                        placeholder="Enter Audio URL/Link "
+                      />
+                      <br />
+                      <br></br>
+                    </div>
+                  </>
+                )}
+
+                {resourceType === "interactivities" && (
+                  <>
+                    <div className="mx-5">
+                      <label className="fw-bold mt-2">
+                        {" "}
+                        Interactivities File
+                      </label>
+                      <br />
+                      <input
+                        className=" form-control"
+                        type="file"
+                        accept=".mp3"
+                        onChange={(e) =>
+                          setInteractivitesFile(e.target.files[0])
+                        }
+                      />
+
+                      <br />
+                      <br></br>
+                      <div className="d-flex justify-content-center fw-bold">
+                        OR
+                      </div>
+
+                      <label className="fw-bold">Enter URL</label>
+                      <br />
+                      <input
+                        className="custom-input"
+                        type="text"
+                        placeholder="Enter Interactivites URL/Link "
+                        value={interactivitiesLink}
+                        onChange={(e) => setInteractivitesLink(e.target.value)}
+                      />
+                      <br />
+                      <br></br>
+                    </div>
+                  </>
+                )}
+
+                {resourceType === "addnworksheets" && (
+                  <>
+                    <div className="mx-5">
+                      <label className=" mt-2 fw-bold">
+                        Additional Worksheets File
+                      </label>
+                      <br />
+                      <input
+                        className="  form-control"
+                        type="file"
+                        onChange={(e) =>
+                          setAddnworksheetsFile(e.target.files[0])
+                        }
+                      />
+                      <br />
+                      <br></br>
+                      <div className="d-flex justify-content-center fw-bold">
+                        OR
+                      </div>
+                      <label className="fw-bold">Add Link/URL</label>
+                      <br />
+                      <input
+                        className="custom-input "
+                        type="text"
+                        value={addnworksheetsLink}
+                        onChange={(e) => setAddnworksheetsLink(e.target.value)}
+                        placeholder="Enter Additional Worksheets  URL/Link "
+                      />
+                      <br />
+                      <br></br>
+                    </div>
+                  </>
+                )}
+
+                {resourceType === "addnactivities" && (
+                  <>
+                    <div className="mx-5">
+                      <label className=" mt-2 fw-bold">
+                        Add Additional Activities
+                      </label>
+                      <br />
+                      <input
+                        className="  form-control"
+                        type="file"
+                        onChange={(e) =>
+                          setAddnactivitiesFile(e.target.files[0])
+                        }
+                      />
+                      <br />
+                      <br></br>
+                      <div className="d-flex justify-content-center fw-bold">
+                        OR
+                      </div>
+                      <label className="fw-bold">Add Link/URL</label>
+                      <br />
+                      <input
+                        className="custom-input "
+                        type="text"
+                        value={addnactivitiesLink}
+                        onChange={(e) => setAddnactivitiesLink(e.target.value)}
+                        placeholder="Enter Video URL/Link "
+                      />
+                      <br />
+                      <br></br>
+                    </div>
+                  </>
+                )}
+
+                {resourceType === "answerkeys" && (
+                  <>
+                    <div className="mx-5">
+                      <label className=" mt-2 fw-bold">Answer Keys File</label>
+                      <br />
+                      <input
+                        className="  form-control"
+                        type="file"
+                        onChange={(e) => setAnswerkeysFile(e.target.files[0])}
+                      />
+                      <br />
+                      <br></br>
+                      <div className="d-flex justify-content-center fw-bold">
+                        OR
+                      </div>
+                      <label className="fw-bold">Add Link/URL</label>
+                      <br />
+                      <input
+                        className="custom-input "
+                        type="text"
+                        value={answerkeysLink}
+                        onChange={(e) => setAnswerkeysLink(e.target.value)}
+                        placeholder="Enter Answer Keys URL/Link "
+                      />
+                      <br />
+                      <br></br>
+                    </div>
+                  </>
+                )}
               </div>
-            </div>
+              <div className="d-flex justify-content-end mt-3 ">
+                <button className="btn-custom" type="submit">
+                  Submit Resource
+                </button>
+              </div>
+            </form>
           </div>
-          {/* End of main content */}
         </div>
       </div>
     </div>

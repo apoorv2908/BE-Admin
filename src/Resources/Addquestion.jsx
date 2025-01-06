@@ -179,281 +179,262 @@ const Addquestion = () => {
 
   return (
     <div>
-      <div className="container-fluid">
+      <Topbar />
+      <div
+        className="container bg-white mt-3 mb-3 p-3"
+        style={{ boxShadow: "0px 0px 5px lightgrey" }}
+      >
         <div className="row">
-          {/* Sidebar */}
-          <Topbar />
-          {/* Main content */}
           <div className="col-md-12">
-            <div className="container mt-3">
-              {/* Topbar */}
-              <div className="row">
-                <div className="col-md-12 bg-white shadow-lg p-3 mb-5 bg-white rounded">
-                  <div className="text-grey h6 fw-bold">
-                    Question Bank: Add Question
+            <div className="text-grey fw-bold h4">Add Question</div>
+            <hr />
+            <form onSubmit={handleSubmit}>
+              {/* Existing fields */}
+              <label className="fw-bold">
+                Class<span className="text-danger">*</span>
+              </label>
+              <br />
+              <select
+                className="custom-input cursor"
+                value={selectedClass}
+                required
+                onChange={(e) => {
+                  setSelectedClass(e.target.value);
+                  fetchSubjects(e.target.value);
+                }}
+              >
+                <option value="">Select Class</option>
+                {classes.map((cls) => (
+                  <option key={cls.class_id} value={cls.class_id}>
+                    {cls.class_name}
+                  </option>
+                ))}
+              </select>
+              <br />
+              <br></br>
+              <label className="fw-bold">
+                Subject<span className="text-danger">*</span>
+              </label>
+              <br />
+              <select
+                className="custom-input cursor"
+                value={selectedSubject}
+                required
+                onChange={(e) => {
+                  setSelectedSubject(e.target.value);
+                  fetchSeries(selectedClass, e.target.value);
+                }}
+              >
+                <option value="">Select Subject</option>
+                {subjects.map((sub) => (
+                  <option key={sub.subject_id} value={sub.subject_id}>
+                    {sub.subject_name}
+                  </option>
+                ))}
+              </select>
+              <br />
+              <br></br>
+              <label className="fw-bold">
+                Series<span className="text-danger">*</span>
+              </label>
+              <br />
+              <select
+                className="custom-input  cursor"
+                value={selectedSeries}
+                required
+                onChange={(e) => {
+                  setSelectedSeries(e.target.value);
+                  fetchBooks(selectedClass, selectedSubject, e.target.value);
+                }}
+              >
+                <option value="">Select Series</option>
+                {series.map((ser) => (
+                  <option key={ser.series_id} value={ser.series_id}>
+                    {ser.series_name}
+                  </option>
+                ))}
+              </select>
+              <br />
+              <br></br>
+              <label className="fw-bold">
+                Book<span className="text-danger">*</span>
+              </label>
+              <br />
+              <select
+                className="custom-input cursor"
+                value={selectedBook}
+                required
+                onChange={(e) => {
+                  setSelectedBook(e.target.value);
+                  fetchChapters(
+                    selectedClass,
+                    selectedSubject,
+                    selectedSeries,
+                    e.target.value
+                  );
+                }}
+              >
+                <option value="">Select Book</option>
+                {books.map((book) => (
+                  <option key={book.book_id} value={book.book_id}>
+                    {book.book_name}
+                  </option>
+                ))}
+              </select>
+              <br />
+              <br></br>
+              <label className="fw-bold">
+                Chapter<span className="text-danger">*</span>
+              </label>
+              <br />
+              <select
+                className="custom-input cursor"
+                value={selectedChapter}
+                required
+                onChange={(e) => setSelectedChapter(e.target.value)}
+              >
+                <option value="">Select Chapter</option>
+                {chapters.map((chap) => (
+                  <option key={chap.chapter_id} value={chap.chapter_id}>
+                    {chap.chapter_title}
+                  </option>
+                ))}
+              </select>
+              <br />
+              <br></br>
+              <label className="fw-bold">
+                Question Type<span className="text-danger">*</span>
+              </label>
+              <br />
+              <select
+                className="custom-input cursor"
+                value={resourceType}
+                required
+                onChange={(e) => setResourceType(e.target.value)}
+              >
+                <option value="">-- Select Question Type --</option>
+                <option value="mcq">MCQ</option>
+                <option value="trueFalse">True/False</option>
+                <option value="short">Short Answer</option>
+                <option value="long">Long Answer</option>
+                <option value="match">Match the Columns</option>
+              </select>
+              <br></br>
+              <br></br>
+              <label className="fw-bold">
+                Enter Question <span className="text-danger">*</span>
+              </label>
+              <br />
+              <textarea
+                className="custom-input"
+                value={resourceTitle}
+                placeholder="Enter Question"
+                required
+                rows={5} // Number of visible rows
+                cols={50} // Number of character columns
+                onChange={(e) => setResourceTitle(e.target.value)}
+              />
+              <br />
+              {/* Dynamic MCQ Inputs */}
+              {resourceType === "mcq" &&
+                mcqOptions.map((option, index) => (
+                  <div key={index} className="mx-5 mt-3 ">
+                    <label className="fw-bold">Option {index + 1}</label>
+                    <input
+                      type="text"
+                      className="custom-input mt-1"
+                      value={option}
+                      onChange={(e) => {
+                        const newOptions = [...mcqOptions];
+                        newOptions[index] = e.target.value;
+                        setMcqOptions(newOptions);
+                      }}
+                    />
+                    <br />
                   </div>
-                  <hr></hr>
-                  <form onSubmit={handleSubmit}>
-                    {/* Existing fields */}
-                    <label className="fw-bold">
-                      Class<span className="text-danger">*</span>
-                    </label>
-                    <br />
-                    <select
-                      className="custom-input cursor"
-                      value={selectedClass}
-                      required
-                      onChange={(e) => {
-                        setSelectedClass(e.target.value);
-                        fetchSubjects(e.target.value);
-                      }}
-                    >
-                      <option value="">Select Class</option>
-                      {classes.map((cls) => (
-                        <option key={cls.class_id} value={cls.class_id}>
-                          {cls.class_name}
-                        </option>
-                      ))}
-                    </select>
-                    <br />
-                    <br></br>
-                    <label className="fw-bold">
-                      Subject<span className="text-danger">*</span>
-                    </label>
-                    <br />
-                    <select
-                      className="custom-input cursor"
-                      value={selectedSubject}
-                      required
-                      onChange={(e) => {
-                        setSelectedSubject(e.target.value);
-                        fetchSeries(selectedClass, e.target.value);
-                      }}
-                    >
-                      <option value="">Select Subject</option>
-                      {subjects.map((sub) => (
-                        <option key={sub.subject_id} value={sub.subject_id}>
-                          {sub.subject_name}
-                        </option>
-                      ))}
-                    </select>
-                    <br />
-                    <br></br>
-                    <label className="fw-bold">
-                      Series<span className="text-danger">*</span>
-                    </label>
-                    <br />
-                    <select
-                      className="custom-input  cursor"
-                      value={selectedSeries}
-                      required
-                      onChange={(e) => {
-                        setSelectedSeries(e.target.value);
-                        fetchBooks(
-                          selectedClass,
-                          selectedSubject,
-                          e.target.value
-                        );
-                      }}
-                    >
-                      <option value="">Select Series</option>
-                      {series.map((ser) => (
-                        <option key={ser.series_id} value={ser.series_id}>
-                          {ser.series_name}
-                        </option>
-                      ))}
-                    </select>
-                    <br />
-                    <br></br>
-                    <label className="fw-bold">
-                      Book<span className="text-danger">*</span>
-                    </label>
-                    <br />
-                    <select
-                      className="custom-input cursor"
-                      value={selectedBook}
-                      required
-                      onChange={(e) => {
-                        setSelectedBook(e.target.value);
-                        fetchChapters(
-                          selectedClass,
-                          selectedSubject,
-                          selectedSeries,
-                          e.target.value
-                        );
-                      }}
-                    >
-                      <option value="">Select Book</option>
-                      {books.map((book) => (
-                        <option key={book.book_id} value={book.book_id}>
-                          {book.book_name}
-                        </option>
-                      ))}
-                    </select>
-                    <br />
-                    <br></br>
-                    <label className="fw-bold">
-                      Chapter<span className="text-danger">*</span>
-                    </label>
-                    <br />
-                    <select
-                      className="custom-input cursor"
-                      value={selectedChapter}
-                      required
-                      onChange={(e) => setSelectedChapter(e.target.value)}
-                    >
-                      <option value="">Select Chapter</option>
-                      {chapters.map((chap) => (
-                        <option key={chap.chapter_id} value={chap.chapter_id}>
-                          {chap.chapter_title}
-                        </option>
-                      ))}
-                    </select>
-                    <br />
-                    <br></br>
-                    <label className="fw-bold">
-                      Question Type<span className="text-danger">*</span>
-                    </label>
-                    <br />
-                    <select
-                      className="custom-input cursor"
-                      value={resourceType}
-                      required
-                      onChange={(e) => setResourceType(e.target.value)}
-                    >
-                      <option value="">-- Select Question Type --</option>
-                      <option value="mcq">MCQ</option>
-                      <option value="trueFalse">True/False</option>
-                      <option value="short">Short Answer</option>
-                      <option value="long">Long Answer</option>
-                      <option value="match">Match the Columns</option>
-                    </select>
-                    <br></br>
-                    <br></br>
-                    <label className="fw-bold">
-                      Enter Question <span className="text-danger">*</span>
-                    </label>
-                    <br />
+                ))}
+              {resourceType === "match" && (
+                <div className="d-flex justify-content-between mx-5 mt-4">
+                  <div>
+                    <label className="fw-bold">Left Side Match</label>
+
                     <textarea
-                      className="custom-input"
-                      value={resourceTitle}
-                      placeholder="Enter Question"
-                      required
-                      rows={5} // Number of visible rows
-                      cols={50} // Number of character columns
-                      onChange={(e) => setResourceTitle(e.target.value)}
-                    />
-
-                    <br />
-                    {/* Dynamic MCQ Inputs */}
-                    {resourceType === "mcq" &&
-                      mcqOptions.map((option, index) => (
-                        <div key={index} className="mx-5 mt-3 ">
-                          <label className="fw-bold">Option {index + 1}</label>
-                          <input
-                            type="text"
-                            className="custom-input mt-1"
-                            value={option}
-                            onChange={(e) => {
-                              const newOptions = [...mcqOptions];
-                              newOptions[index] = e.target.value;
-                              setMcqOptions(newOptions);
-                            }}
-                          />
-                          <br />
-                        </div>
-                      ))}
-
-                    {resourceType === "match" && (
-                      <div className="d-flex justify-content-between mx-5 mt-4">
-                        <div>
-                          <label className="fw-bold">Left Side Match</label>
-
-                          <textarea
-                            type="text"
-                            className="custom-input mt-1"
-                            value={matchPair.left}
-                            onChange={(e) =>
-                              setMatchPair({
-                                ...matchPair,
-                                left: e.target.value,
-                              })
-                            }
-                          />
-                          <br />
-                        </div>
-
-                        <div className=" mt-3">
-                          <i class="bi bi-arrows"></i>
-                        </div>
-
-                        <div>
-                          <label className="fw-bold ">Right Side Match</label>
-                          <textarea
-                            type="text"
-                            className="custom-input mt-1"
-                            value={matchPair.right}
-                            onChange={(e) =>
-                              setMatchPair({
-                                ...matchPair,
-                                right: e.target.value,
-                              })
-                            }
-                          />
-                          <br />
-                        </div>
-                      </div>
-                    )}
-
-                    <br></br>
-                    <label className="fw-bold">
-                      Question Weightage{" "}
-                      <span style={{ fontSize: "12px" }}>(Total Marks)</span>
-                    </label>
-                    <br />
-                    <input
-                      type="number"
-                      className="custom-input"
-                      value={totalMarks}
-                      placeholder="Enter Total Marks"
-                      onChange={(e) => setTotalMarks(e.target.value)}
+                      type="text"
+                      className="custom-input mt-1"
+                      value={matchPair.left}
+                      onChange={(e) =>
+                        setMatchPair({
+                          ...matchPair,
+                          left: e.target.value,
+                        })
+                      }
                     />
                     <br />
-                    <br></br>
-                    <label className="fw-bold">
-                      Add Image for Question{" "}
-                      <span style={{ fontSize: "12px" }}>(if any)</span>
-                    </label>
-                    <br />
-                    <input
-                      type="file"
-                      className="form-control"
-                      accept="image/*"
-                      onChange={(e) => setQuestionImage(e.target.files[0])}
-                    />
-                    <br />
+                  </div>
 
-                    <label className="fw-bold">Answer of the Question</label>
-                    <br />
+                  <div className=" mt-3">
+                    <i class="bi bi-arrows"></i>
+                  </div>
+
+                  <div>
+                    <label className="fw-bold ">Right Side Match</label>
                     <textarea
-                      className="custom-input"
-                      value={questionAnswer}
-                      placeholder="Enter Answer"
-                      onChange={(e) => setQuestionAnswer(e.target.value)}
+                      type="text"
+                      className="custom-input mt-1"
+                      value={matchPair.right}
+                      onChange={(e) =>
+                        setMatchPair({
+                          ...matchPair,
+                          right: e.target.value,
+                        })
+                      }
                     />
                     <br />
-                    <br></br>
-                    <div className="d-flex justify-content-end mt-3 ">
-                      <button className="btn btn-primary" type="submit">
-                        Submit
-                      </button>
-                    </div>
-                  </form>
+                  </div>
                 </div>
+              )}
+              <br></br>
+              <label className="fw-bold">
+                Question Weightage{" "}
+                <span style={{ fontSize: "12px" }}>(Total Marks)</span>
+              </label>
+              <br />
+              <input
+                type="number"
+                className="custom-input"
+                value={totalMarks}
+                placeholder="Enter Total Marks"
+                onChange={(e) => setTotalMarks(e.target.value)}
+              />
+              <br />
+              <br></br>
+              <label className="fw-bold">Add Image for Question:{""} </label>
+              <input
+                type="file"
+                className="mx-1"
+                accept="image/*"
+                onChange={(e) => setQuestionImage(e.target.files[0])}
+              />
+              <br />
+              <br></br>
+              <label className="fw-bold">Answer of the Question</label>
+              <br />
+
+              <textarea
+                className="custom-input"
+                value={questionAnswer}
+                placeholder="Enter Answer"
+                onChange={(e) => setQuestionAnswer(e.target.value)}
+              />
+              <br />
+              <br></br>
+              <div className="d-flex justify-content-end">
+                <button className="btn-custom" type="submit">
+                  Submit Question
+                </button>
               </div>
-            </div>
+            </form>
           </div>
-          {/* End of main content */}
         </div>
       </div>
     </div>
